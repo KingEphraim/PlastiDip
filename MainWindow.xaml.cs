@@ -37,7 +37,7 @@ namespace WpfCSharpSDK
             try
             {
                 TransRequest.xKey = Key.Text;
-                TransRequest.xVersion = "4.5.9";
+                TransRequest.xVersion = "5.0.0";
                 TransRequest.xSoftwareName = "PlastiDip";
                 TransRequest.xSoftwareVersion = "2.0";
 
@@ -68,7 +68,7 @@ namespace WpfCSharpSDK
         {
 
             TransRequest.xKey = Key.Text;
-            TransRequest.xVersion = "4.5.9";
+            TransRequest.xVersion = "5.0.0";
             TransRequest.xSoftwareName = "PlastiDip";
             TransRequest.xSoftwareVersion = "2.0";
 
