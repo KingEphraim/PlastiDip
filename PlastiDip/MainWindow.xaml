@@ -1,0 +1,669 @@
+﻿<Window x:Class="PlastiDip.MainWindow"
+        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+        xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+        xmlns:Themes="clr-namespace:Microsoft.Windows.Themes;assembly=PresentationFramework.Aero2" 
+        xmlns:local="clr-namespace:PlastiDip"
+        mc:Ignorable="d"
+        Title="MainWindow"  ResizeMode="NoResize" SizeToContent="WidthAndHeight" >
+    <Window.Resources>
+        <SolidColorBrush x:Key="RedBrush" Color="Red"/>
+
+        <SolidColorBrush x:Key="SolidBorderBrush" Color="#888" />
+        <SolidColorBrush x:Key="Main" Color="#FFAFC1A3" />
+        <SolidColorBrush x:Key="Selected" Color="#FF96A789" />
+
+        <SolidColorBrush x:Key="GreenBrush" Color="Green" />
+
+        <SolidColorBrush x:Key="DisabledBackgroundBrush" Color="#EEE" />
+
+        <SolidColorBrush x:Key="DisabledBorderBrush" Color="#AAA" />
+
+        <SolidColorBrush x:Key="DisabledForegroundBrush" Color="#888" />
+
+        <Style TargetType="{x:Type TabItem}">
+            <Setter Property="Template">
+                <Setter.Value>
+                    <ControlTemplate TargetType="{x:Type TabItem}">
+
+                        <Grid>
+
+                            <Border 
+                                Name="Border"
+                                Margin="0,0,-4,0"                                  
+                                Background="{StaticResource Main}"
+                                BorderBrush="{StaticResource  SolidBorderBrush}" 
+                                BorderThickness="1,1,1,1" 
+                                CornerRadius="2,12,0,0" >
+
+                                <ContentPresenter x:Name="ContentSite"
+                                    VerticalAlignment="Center"
+                                    HorizontalAlignment="Center"
+                                    ContentSource="Header"
+                                    Margin="12,2,12,2"
+                                                  
+                                    RecognizesAccessKey="True"/>
+
+                            </Border>
+
+
+                        </Grid>
+                        <ControlTemplate.Triggers>
+
+
+
+                            <Trigger Property="IsSelected" Value="True">
+                                <Setter Property="Panel.ZIndex" Value="100" />
+                                <Setter TargetName="Border" Property="Background" Value="{StaticResource Selected}" />
+                                <Setter TargetName="Border" Property="BorderThickness" Value="1,1,1,0" />
+                            </Trigger>
+                            <Trigger Property="IsEnabled" Value="False">
+                                <Setter TargetName="Border" Property="Background" Value="{StaticResource DisabledBackgroundBrush}" />
+                                <Setter TargetName="Border" Property="BorderBrush" Value="{StaticResource DisabledBorderBrush}" />
+                                <Setter Property="Foreground" Value="{StaticResource DisabledForegroundBrush}" />
+                            </Trigger>
+                        </ControlTemplate.Triggers>
+                    </ControlTemplate>
+                </Setter.Value>
+            </Setter>
+        </Style>
+        <Style x:Key="FocusVisual">
+            <Setter Property="Control.Template">
+                <Setter.Value>
+                    <ControlTemplate>
+                        <Rectangle Margin="2" SnapsToDevicePixels="true" Stroke="{DynamicResource {x:Static SystemColors.ControlTextBrushKey}}" StrokeThickness="1" StrokeDashArray="1 2"/>
+                    </ControlTemplate>
+                </Setter.Value>
+            </Setter>
+        </Style>
+        <LinearGradientBrush x:Key="ComboBox.Static.Background"  EndPoint="0,1" StartPoint="0,0"/>
+        <SolidColorBrush x:Key="ComboBox.Static.Border" Color="#FFCFD4C6"/>
+        <SolidColorBrush x:Key="ComboBox.Static.Editable.Background" Color="#FFA3B199"/>
+        <SolidColorBrush x:Key="ComboBox.Static.Editable.Border" Color="#FFA3B199"/>
+        <SolidColorBrush x:Key="ComboBox.Static.Editable.Button.Background" Color="#FFA3B199"/>
+        <SolidColorBrush x:Key="ComboBox.Static.Editable.Button.Border" Color="#FFA3B199"/>
+        <SolidColorBrush x:Key="ComboBox.MouseOver.Glyph" Color="#FFA3B199"/>
+        <LinearGradientBrush x:Key="ComboBox.MouseOver.Background" EndPoint="0,1" StartPoint="0,0">
+            <GradientStop Color="#FFECF4FC" Offset="0.0"/>
+            <GradientStop Color="#FFDCECFC" Offset="1.0"/>
+        </LinearGradientBrush>
+        <SolidColorBrush x:Key="ComboBox.MouseOver.Border" Color="#FF7EB4EA"/>
+        <SolidColorBrush x:Key="ComboBox.MouseOver.Editable.Background" Color="#FFFFFFFF"/>
+        <SolidColorBrush x:Key="ComboBox.MouseOver.Editable.Border" Color="#FF7EB4EA"/>
+        <LinearGradientBrush x:Key="ComboBox.MouseOver.Editable.Button.Background" EndPoint="0,1" StartPoint="0,0">
+            <GradientStop Color="#FFEBF4FC" Offset="0.0"/>
+            <GradientStop Color="#FFDCECFC" Offset="1.0"/>
+        </LinearGradientBrush>
+        <SolidColorBrush x:Key="ComboBox.MouseOver.Editable.Button.Border" Color="#FF7EB4EA"/>
+        <SolidColorBrush x:Key="ComboBox.Pressed.Glyph" Color="#FF000000"/>
+        <LinearGradientBrush x:Key="ComboBox.Pressed.Background" EndPoint="0,1" StartPoint="0,0">
+            <GradientStop Color="#FFDAECFC" Offset="0.0"/>
+            <GradientStop Color="#FFC4E0FC" Offset="1.0"/>
+        </LinearGradientBrush>
+        <SolidColorBrush x:Key="ComboBox.Pressed.Border" Color="#FF569DE5"/>
+        <SolidColorBrush x:Key="ComboBox.Pressed.Editable.Background" Color="#FFFFFFFF"/>
+        <SolidColorBrush x:Key="ComboBox.Pressed.Editable.Border" Color="#FF569DE5"/>
+        <LinearGradientBrush x:Key="ComboBox.Pressed.Editable.Button.Background" EndPoint="0,1" StartPoint="0,0">
+            <GradientStop Color="#FFDAEBFC" Offset="0.0"/>
+            <GradientStop Color="#FFC4E0FC" Offset="1.0"/>
+        </LinearGradientBrush>
+        <SolidColorBrush x:Key="ComboBox.Pressed.Editable.Button.Border" Color="#FF569DE5"/>
+        <SolidColorBrush x:Key="ComboBox.Disabled.Glyph" Color="#FFBFBFBF"/>
+        <SolidColorBrush x:Key="ComboBox.Disabled.Background" Color="#FFF0F0F0"/>
+        <SolidColorBrush x:Key="ComboBox.Disabled.Border" Color="#FFD9D9D9"/>
+        <SolidColorBrush x:Key="ComboBox.Disabled.Editable.Background" Color="#FFFFFFFF"/>
+        <SolidColorBrush x:Key="ComboBox.Disabled.Editable.Border" Color="#FFBFBFBF"/>
+        <SolidColorBrush x:Key="ComboBox.Disabled.Editable.Button.Background" Color="Transparent"/>
+        <SolidColorBrush x:Key="ComboBox.Disabled.Editable.Button.Border" Color="Transparent"/>
+        <SolidColorBrush x:Key="ComboBox.Static.Glyph" Color="#FF606060"/>
+        <Style x:Key="ComboBoxToggleButton" TargetType="{x:Type ToggleButton}">
+            <Setter Property="OverridesDefaultStyle" Value="true"/>
+            <Setter Property="IsTabStop" Value="false"/>
+            <Setter Property="Focusable" Value="false"/>
+            <Setter Property="ClickMode" Value="Press"/>
+            <Setter Property="Template">
+                <Setter.Value>
+                    <ControlTemplate TargetType="{x:Type ToggleButton}">
+                        <Border x:Name="templateRoot"   SnapsToDevicePixels="true">
+                            <Border x:Name="splitBorder"  BorderThickness="0" HorizontalAlignment="Right" Margin="0" SnapsToDevicePixels="true" Width="{DynamicResource {x:Static SystemParameters.VerticalScrollBarWidthKey}}">
+                                <Path x:Name="arrow" Data="F1 M 0,0 L 2.667,2.66665 L 5.3334,0 L 5.3334,-1.78168 L 2.6667,0.88501 L0,-1.78168 L0,0 Z" Fill="{StaticResource ComboBox.Static.Glyph}" HorizontalAlignment="Center" Margin="0" VerticalAlignment="Center"/>
+                            </Border>
+                        </Border>
+                        <ControlTemplate.Triggers>
+                            <MultiDataTrigger>
+                                <MultiDataTrigger.Conditions>
+                                    <Condition Binding="{Binding IsEditable, RelativeSource={RelativeSource AncestorType={x:Type ComboBox}}}" Value="true"/>
+                                    <Condition Binding="{Binding IsMouseOver, RelativeSource={RelativeSource Self}}" Value="false"/>
+                                    <Condition Binding="{Binding IsPressed, RelativeSource={RelativeSource Self}}" Value="false"/>
+                                    <Condition Binding="{Binding IsEnabled, RelativeSource={RelativeSource Self}}" Value="true"/>
+                                </MultiDataTrigger.Conditions>
+                                <Setter Property="Background" TargetName="templateRoot" Value="{StaticResource ComboBox.Static.Editable.Background}"/>
+                                <Setter Property="BorderBrush" TargetName="templateRoot" Value="{StaticResource ComboBox.Static.Editable.Border}"/>
+                                <Setter Property="Background" TargetName="splitBorder" Value="{StaticResource ComboBox.Static.Editable.Button.Background}"/>
+                                <Setter Property="BorderBrush" TargetName="splitBorder" Value="{StaticResource ComboBox.Static.Editable.Button.Border}"/>
+                            </MultiDataTrigger>
+                            <Trigger Property="IsMouseOver" Value="true">
+                                <Setter Property="Fill" TargetName="arrow" Value="{StaticResource ComboBox.MouseOver.Glyph}"/>
+                            </Trigger>
+                            <MultiDataTrigger>
+                                <MultiDataTrigger.Conditions>
+                                    <Condition Binding="{Binding IsMouseOver, RelativeSource={RelativeSource Self}}" Value="true"/>
+                                    <Condition Binding="{Binding IsEditable, RelativeSource={RelativeSource AncestorType={x:Type ComboBox}}}" Value="false"/>
+                                </MultiDataTrigger.Conditions>
+                                <Setter Property="Background" TargetName="templateRoot" Value="{StaticResource ComboBox.MouseOver.Background}"/>
+                                <Setter Property="BorderBrush" TargetName="templateRoot" Value="{StaticResource ComboBox.MouseOver.Border}"/>
+                            </MultiDataTrigger>
+                            <MultiDataTrigger>
+                                <MultiDataTrigger.Conditions>
+                                    <Condition Binding="{Binding IsMouseOver, RelativeSource={RelativeSource Self}}" Value="true"/>
+                                    <Condition Binding="{Binding IsEditable, RelativeSource={RelativeSource AncestorType={x:Type ComboBox}}}" Value="true"/>
+                                </MultiDataTrigger.Conditions>
+                                <Setter Property="Background" TargetName="templateRoot" Value="{StaticResource ComboBox.MouseOver.Editable.Background}"/>
+                                <Setter Property="BorderBrush" TargetName="templateRoot" Value="{StaticResource ComboBox.MouseOver.Editable.Border}"/>
+                                <Setter Property="Background" TargetName="splitBorder" Value="{StaticResource ComboBox.MouseOver.Editable.Button.Background}"/>
+                                <Setter Property="BorderBrush" TargetName="splitBorder" Value="{StaticResource ComboBox.MouseOver.Editable.Button.Border}"/>
+                            </MultiDataTrigger>
+                            <Trigger Property="IsPressed" Value="true">
+                                <Setter Property="Fill" TargetName="arrow" Value="{StaticResource ComboBox.Pressed.Glyph}"/>
+                            </Trigger>
+                            <MultiDataTrigger>
+                                <MultiDataTrigger.Conditions>
+                                    <Condition Binding="{Binding IsPressed, RelativeSource={RelativeSource Self}}" Value="true"/>
+                                    <Condition Binding="{Binding IsEditable, RelativeSource={RelativeSource AncestorType={x:Type ComboBox}}}" Value="false"/>
+                                </MultiDataTrigger.Conditions>
+                                <Setter Property="Background" TargetName="templateRoot" Value="{StaticResource ComboBox.Pressed.Background}"/>
+                                <Setter Property="BorderBrush" TargetName="templateRoot" Value="{StaticResource ComboBox.Pressed.Border}"/>
+                            </MultiDataTrigger>
+                            <MultiDataTrigger>
+                                <MultiDataTrigger.Conditions>
+                                    <Condition Binding="{Binding IsPressed, RelativeSource={RelativeSource Self}}" Value="true"/>
+                                    <Condition Binding="{Binding IsEditable, RelativeSource={RelativeSource AncestorType={x:Type ComboBox}}}" Value="true"/>
+                                </MultiDataTrigger.Conditions>
+                                <Setter Property="Background" TargetName="templateRoot" Value="{StaticResource ComboBox.Pressed.Editable.Background}"/>
+                                <Setter Property="BorderBrush" TargetName="templateRoot" Value="{StaticResource ComboBox.Pressed.Editable.Border}"/>
+                                <Setter Property="Background" TargetName="splitBorder" Value="{StaticResource ComboBox.Pressed.Editable.Button.Background}"/>
+                                <Setter Property="BorderBrush" TargetName="splitBorder" Value="{StaticResource ComboBox.Pressed.Editable.Button.Border}"/>
+                            </MultiDataTrigger>
+                            <Trigger Property="IsEnabled" Value="false">
+                                <Setter Property="Fill" TargetName="arrow" Value="{StaticResource ComboBox.Disabled.Glyph}"/>
+                            </Trigger>
+                            <MultiDataTrigger>
+                                <MultiDataTrigger.Conditions>
+                                    <Condition Binding="{Binding IsEnabled, RelativeSource={RelativeSource Self}}" Value="false"/>
+                                    <Condition Binding="{Binding IsEditable, RelativeSource={RelativeSource AncestorType={x:Type ComboBox}}}" Value="false"/>
+                                </MultiDataTrigger.Conditions>
+                                <Setter Property="Background" TargetName="templateRoot" Value="{StaticResource ComboBox.Disabled.Background}"/>
+                                <Setter Property="BorderBrush" TargetName="templateRoot" Value="{StaticResource ComboBox.Disabled.Border}"/>
+                            </MultiDataTrigger>
+                            <MultiDataTrigger>
+                                <MultiDataTrigger.Conditions>
+                                    <Condition Binding="{Binding IsEnabled, RelativeSource={RelativeSource Self}}" Value="false"/>
+                                    <Condition Binding="{Binding IsEditable, RelativeSource={RelativeSource AncestorType={x:Type ComboBox}}}" Value="true"/>
+                                </MultiDataTrigger.Conditions>
+                                <Setter Property="Background" TargetName="templateRoot" Value="{StaticResource ComboBox.Disabled.Editable.Background}"/>
+                                <Setter Property="BorderBrush" TargetName="templateRoot" Value="{StaticResource ComboBox.Disabled.Editable.Border}"/>
+                                <Setter Property="Background" TargetName="splitBorder" Value="{StaticResource ComboBox.Disabled.Editable.Button.Background}"/>
+                                <Setter Property="BorderBrush" TargetName="splitBorder" Value="{StaticResource ComboBox.Disabled.Editable.Button.Border}"/>
+                            </MultiDataTrigger>
+                        </ControlTemplate.Triggers>
+                    </ControlTemplate>
+                </Setter.Value>
+            </Setter>
+        </Style>
+        <ControlTemplate x:Key="ComboBoxTemplate" TargetType="{x:Type ComboBox}">
+            <Grid x:Name="templateRoot" SnapsToDevicePixels="true">
+                <Grid.ColumnDefinitions>
+                    <ColumnDefinition Width="*"/>
+                    <ColumnDefinition MinWidth="{DynamicResource {x:Static SystemParameters.VerticalScrollBarWidthKey}}" Width="0"/>
+                </Grid.ColumnDefinitions>
+                <Popup x:Name="PART_Popup" AllowsTransparency="true" Grid.ColumnSpan="2" IsOpen="{Binding IsDropDownOpen, Mode=TwoWay, RelativeSource={RelativeSource TemplatedParent}}" Margin="1" PopupAnimation="{DynamicResource {x:Static SystemParameters.ComboBoxPopupAnimationKey}}" Placement="Bottom">
+                    <Themes:SystemDropShadowChrome x:Name="shadow" Color="Transparent" MaxHeight="{TemplateBinding MaxDropDownHeight}" MinWidth="{Binding ActualWidth, ElementName=templateRoot}">
+                        <Border x:Name="dropDownBorder" BorderBrush="{DynamicResource {x:Static SystemColors.WindowFrameBrushKey}}" BorderThickness="1" Background="{DynamicResource {x:Static SystemColors.WindowBrushKey}}">
+                            <ScrollViewer x:Name="DropDownScrollViewer">
+                                <Grid x:Name="grid" RenderOptions.ClearTypeHint="Enabled">
+                                    <Canvas x:Name="canvas" HorizontalAlignment="Left" Height="0" VerticalAlignment="Top" Width="0">
+                                        <Rectangle x:Name="opaqueRect" Fill="{Binding Background, ElementName=dropDownBorder}" Height="{Binding ActualHeight, ElementName=dropDownBorder}" Width="{Binding ActualWidth, ElementName=dropDownBorder}"/>
+                                    </Canvas>
+                                    <ItemsPresenter x:Name="ItemsPresenter" KeyboardNavigation.DirectionalNavigation="Contained" SnapsToDevicePixels="{TemplateBinding SnapsToDevicePixels}"/>
+                                </Grid>
+                            </ScrollViewer>
+                        </Border>
+                    </Themes:SystemDropShadowChrome>
+                </Popup>
+                <ToggleButton x:Name="toggleButton" BorderBrush="{TemplateBinding BorderBrush}" BorderThickness="{TemplateBinding BorderThickness}" Background="{TemplateBinding Background}" Grid.ColumnSpan="2" IsChecked="{Binding IsDropDownOpen, Mode=TwoWay, RelativeSource={RelativeSource TemplatedParent}}" Style="{StaticResource ComboBoxToggleButton}"/>
+                <ContentPresenter x:Name="contentPresenter" ContentTemplate="{TemplateBinding SelectionBoxItemTemplate}" ContentTemplateSelector="{TemplateBinding ItemTemplateSelector}" Content="{TemplateBinding SelectionBoxItem}" ContentStringFormat="{TemplateBinding SelectionBoxItemStringFormat}" HorizontalAlignment="{TemplateBinding HorizontalContentAlignment}" IsHitTestVisible="false" Margin="{TemplateBinding Padding}" SnapsToDevicePixels="{TemplateBinding SnapsToDevicePixels}" VerticalAlignment="{TemplateBinding VerticalContentAlignment}"/>
+            </Grid>
+            <ControlTemplate.Triggers>
+                <Trigger Property="HasDropShadow" SourceName="PART_Popup" Value="true">
+                    <Setter Property="Margin" TargetName="shadow" Value="0,0,5,5"/>
+                    <Setter Property="Color" TargetName="shadow" Value="#71000000"/>
+                </Trigger>
+                <Trigger Property="HasItems" Value="false">
+                    <Setter Property="Height" TargetName="dropDownBorder" Value="95"/>
+                </Trigger>
+                <MultiTrigger>
+                    <MultiTrigger.Conditions>
+                        <Condition Property="IsGrouping" Value="true"/>
+                        <Condition Property="VirtualizingPanel.IsVirtualizingWhenGrouping" Value="false"/>
+                    </MultiTrigger.Conditions>
+                    <Setter Property="ScrollViewer.CanContentScroll" Value="false"/>
+                </MultiTrigger>
+                <Trigger Property="ScrollViewer.CanContentScroll" SourceName="DropDownScrollViewer" Value="false">
+                    <Setter Property="Canvas.Top" TargetName="opaqueRect" Value="{Binding VerticalOffset, ElementName=DropDownScrollViewer}"/>
+                    <Setter Property="Canvas.Left" TargetName="opaqueRect" Value="{Binding HorizontalOffset, ElementName=DropDownScrollViewer}"/>
+                </Trigger>
+            </ControlTemplate.Triggers>
+        </ControlTemplate>
+        <SolidColorBrush x:Key="TextBox.Static.Background"  Color="#FFD4D4D4"/>
+
+        <Style x:Key="ComboBoxEditableTextBox" TargetType="{x:Type TextBox}">
+            <Setter Property="OverridesDefaultStyle" Value="true"/>
+            <Setter Property="AllowDrop" Value="true"/>
+            <Setter Property="MinWidth" Value="0"/>
+            <Setter Property="MinHeight" Value="0"/>
+            <Setter Property="FocusVisualStyle" Value="{x:Null}"/>
+            <Setter Property="ScrollViewer.PanningMode" Value="VerticalFirst"/>
+            <Setter Property="Stylus.IsFlicksEnabled" Value="False"/>
+            <Setter Property="Template">
+                <Setter.Value>
+                    <ControlTemplate TargetType="{x:Type TextBox}">
+                        <ScrollViewer x:Name="PART_ContentHost"  Background="#FFD8DED4" Focusable="false" HorizontalScrollBarVisibility="Hidden" VerticalScrollBarVisibility="Hidden"/>
+                    </ControlTemplate>
+                </Setter.Value>
+            </Setter>
+        </Style>
+        <ControlTemplate x:Key="ComboBoxEditableTemplate" TargetType="{x:Type ComboBox}">
+            <Grid x:Name="templateRoot" SnapsToDevicePixels="true" Background="#FFA3B199">
+                <Grid.ColumnDefinitions>
+                    <ColumnDefinition Width="*"/>
+                    <ColumnDefinition MinWidth="{DynamicResource {x:Static SystemParameters.VerticalScrollBarWidthKey}}" Width="0"/>
+                </Grid.ColumnDefinitions>
+                <Popup x:Name="PART_Popup" AllowsTransparency="true" Grid.ColumnSpan="2" IsOpen="{Binding IsDropDownOpen, RelativeSource={RelativeSource TemplatedParent}}" PopupAnimation="{DynamicResource {x:Static SystemParameters.ComboBoxPopupAnimationKey}}" Placement="Bottom">
+                    <Themes:SystemDropShadowChrome x:Name="shadow" Color="Transparent" MaxHeight="{TemplateBinding MaxDropDownHeight}" MinWidth="{Binding ActualWidth, ElementName=templateRoot}">
+                        <Border x:Name="dropDownBorder" BorderBrush="#FFC7B2AE" BorderThickness="1" Background="#FFA3B199">
+                            <ScrollViewer x:Name="DropDownScrollViewer">
+                                <Grid x:Name="grid" RenderOptions.ClearTypeHint="Enabled">
+                                    <Canvas x:Name="canvas" HorizontalAlignment="Left" Height="0" VerticalAlignment="Top" Width="0">
+                                        <Rectangle x:Name="opaqueRect" Fill="{Binding Background, ElementName=dropDownBorder}" Height="{Binding ActualHeight, ElementName=dropDownBorder}" Width="{Binding ActualWidth, ElementName=dropDownBorder}"/>
+                                    </Canvas>
+                                    <ItemsPresenter x:Name="ItemsPresenter" KeyboardNavigation.DirectionalNavigation="Contained" SnapsToDevicePixels="{TemplateBinding SnapsToDevicePixels}"/>
+                                </Grid>
+                            </ScrollViewer>
+                        </Border>
+                    </Themes:SystemDropShadowChrome>
+                </Popup>
+                <ToggleButton x:Name="toggleButton" BorderBrush="{TemplateBinding BorderBrush}" BorderThickness="{TemplateBinding BorderThickness}" Background="{TemplateBinding Background}" Grid.ColumnSpan="2" IsChecked="{Binding IsDropDownOpen, Mode=TwoWay, RelativeSource={RelativeSource TemplatedParent}}" Style="{StaticResource ComboBoxToggleButton}"/>
+                <Border x:Name="border" Background="{StaticResource TextBox.Static.Background}" Margin="{TemplateBinding BorderThickness}">
+                    <TextBox x:Name="PART_EditableTextBox" HorizontalContentAlignment="{TemplateBinding HorizontalContentAlignment}" IsReadOnly="{Binding IsReadOnly, RelativeSource={RelativeSource TemplatedParent}}" Margin="{TemplateBinding Padding}" Style="{StaticResource ComboBoxEditableTextBox}" VerticalContentAlignment="{TemplateBinding VerticalContentAlignment}"/>
+                </Border>
+            </Grid>
+            <ControlTemplate.Triggers>
+                <Trigger Property="IsEnabled" Value="false">
+                    <Setter Property="Opacity" TargetName="border" Value="0.56"/>
+                </Trigger>
+                <Trigger Property="IsKeyboardFocusWithin" Value="true">
+                    <Setter Property="Foreground" Value="Black"/>
+                </Trigger>
+                <Trigger Property="HasDropShadow" SourceName="PART_Popup" Value="true">
+                    <Setter Property="Margin" TargetName="shadow" Value="0,0,5,5"/>
+                    <Setter Property="Color" TargetName="shadow" Value="#71000000"/>
+                </Trigger>
+                <Trigger Property="HasItems" Value="false">
+                    <Setter Property="Height" TargetName="dropDownBorder" Value="95"/>
+                </Trigger>
+                <MultiTrigger>
+                    <MultiTrigger.Conditions>
+                        <Condition Property="IsGrouping" Value="true"/>
+                        <Condition Property="VirtualizingPanel.IsVirtualizingWhenGrouping" Value="false"/>
+                    </MultiTrigger.Conditions>
+                    <Setter Property="ScrollViewer.CanContentScroll" Value="false"/>
+                </MultiTrigger>
+                <Trigger Property="ScrollViewer.CanContentScroll" SourceName="DropDownScrollViewer" Value="false">
+                    <Setter Property="Canvas.Top" TargetName="opaqueRect" Value="{Binding VerticalOffset, ElementName=DropDownScrollViewer}"/>
+                    <Setter Property="Canvas.Left" TargetName="opaqueRect" Value="{Binding HorizontalOffset, ElementName=DropDownScrollViewer}"/>
+                </Trigger>
+            </ControlTemplate.Triggers>
+        </ControlTemplate>
+        <Style x:Key="ComboBoxStyle1" TargetType="{x:Type ComboBox}">
+            <Setter Property="FocusVisualStyle" Value="{StaticResource FocusVisual}"/>
+            <Setter Property="Background" Value="{StaticResource ComboBox.Static.Background}"/>
+            <Setter Property="BorderBrush" Value="{StaticResource ComboBox.Static.Border}"/>
+            <Setter Property="Foreground" Value="{DynamicResource {x:Static SystemColors.WindowTextBrushKey}}"/>
+            <Setter Property="BorderThickness" Value="0"/>
+            <Setter Property="ScrollViewer.HorizontalScrollBarVisibility" Value="Auto"/>
+            <Setter Property="ScrollViewer.VerticalScrollBarVisibility" Value="Auto"/>
+            <Setter Property="Padding" Value="6,3,5,3"/>
+            <Setter Property="ScrollViewer.CanContentScroll" Value="true"/>
+            <Setter Property="ScrollViewer.PanningMode" Value="Both"/>
+            <Setter Property="Stylus.IsFlicksEnabled" Value="False"/>
+            <Setter Property="Template" Value="{StaticResource ComboBoxTemplate}"/>
+            <Style.Triggers>
+                <Trigger Property="IsEditable" Value="true">
+                    <Setter Property="IsTabStop" Value="false"/>
+                    <Setter Property="Padding" Value="0"/>
+                    <Setter Property="Template" Value="{StaticResource ComboBoxEditableTemplate}"/>
+                </Trigger>
+            </Style.Triggers>
+        </Style>
+        <Style x:Key="FocusVisual1">
+            <Setter Property="Control.Template">
+                <Setter.Value>
+                    <ControlTemplate>
+                        <Rectangle Margin="2" StrokeDashArray="1 2" Stroke="{DynamicResource {x:Static SystemColors.ControlTextBrushKey}}" SnapsToDevicePixels="true" StrokeThickness="1"/>
+                    </ControlTemplate>
+                </Setter.Value>
+            </Setter>
+        </Style>
+        <SolidColorBrush x:Key="ComboBoxItem.ItemsviewHover.Background" Color="#1F26A0DA"/>
+        <SolidColorBrush x:Key="ComboBoxItem.ItemsviewHover.Border" Color="#A826A0DA"/>
+        <SolidColorBrush x:Key="ComboBoxItem.ItemsviewSelected.Background" Color="#3D26A0DA"/>
+        <SolidColorBrush x:Key="ComboBoxItem.ItemsviewSelected.Border" Color="#FF26A0DA"/>
+        <SolidColorBrush x:Key="ComboBoxItem.ItemsviewSelectedHover.Background" Color="#2E0080FF"/>
+        <SolidColorBrush x:Key="ComboBoxItem.ItemsviewSelectedHover.Border" Color="#99006CD9"/>
+        <SolidColorBrush x:Key="ComboBoxItem.ItemsviewSelectedNoFocus.Background" Color="#3DDADADA"/>
+        <SolidColorBrush x:Key="ComboBoxItem.ItemsviewSelectedNoFocus.Border" Color="#FFDADADA"/>
+        <SolidColorBrush x:Key="ComboBoxItem.ItemsviewFocus.Border" Color="#FF26A0DA"/>
+        <SolidColorBrush x:Key="ComboBoxItem.ItemsviewHoverFocus.Background" Color="#5426A0DA"/>
+        <SolidColorBrush x:Key="ComboBoxItem.ItemsviewHoverFocus.Border" Color="#FF26A0DA"/>
+        <Style x:Key="ComboBoxItemContainerStyle1" TargetType="{x:Type ComboBoxItem}">
+            <Setter Property="SnapsToDevicePixels" Value="True"/>
+            <Setter Property="Padding" Value="4,1"/>
+            <Setter Property="HorizontalContentAlignment" Value="{Binding HorizontalContentAlignment, RelativeSource={RelativeSource AncestorType={x:Type ItemsControl}}}"/>
+            <Setter Property="VerticalContentAlignment" Value="{Binding VerticalContentAlignment, RelativeSource={RelativeSource AncestorType={x:Type ItemsControl}}}"/>
+            <Setter Property="Background" Value="#FFD8DED4"/>
+            <Setter Property="BorderBrush" Value="#FFD8DED4"/>
+            <Setter Property="Foreground" Value="#FF3E4437"/>
+
+
+            <Setter Property="BorderThickness" Value="1"/>
+            <Setter Property="FocusVisualStyle" Value="{StaticResource FocusVisual1}"/>
+            <Setter Property="Template">
+                <Setter.Value>
+                    <ControlTemplate TargetType="{x:Type ComboBoxItem}">
+                        <Border x:Name="Bd" Background="{TemplateBinding Background}" BorderBrush="{TemplateBinding BorderBrush}" BorderThickness="{TemplateBinding BorderThickness}" Padding="{TemplateBinding Padding}" SnapsToDevicePixels="true">
+                            <ContentPresenter HorizontalAlignment="{TemplateBinding HorizontalContentAlignment}" SnapsToDevicePixels="{TemplateBinding SnapsToDevicePixels}" VerticalAlignment="{TemplateBinding VerticalContentAlignment}"/>
+                        </Border>
+                        <ControlTemplate.Triggers>
+                            <Trigger Property="IsEnabled" Value="False">
+                                <Setter Property="TextElement.Foreground" TargetName="Bd" Value="{DynamicResource {x:Static SystemColors.GrayTextBrushKey}}"/>
+                            </Trigger>
+                            <MultiTrigger>
+                                <MultiTrigger.Conditions>
+                                    <Condition Property="IsSelected" Value="False"/>
+                                    <Condition Property="IsMouseOver" Value="True"/>
+                                    <Condition Property="IsKeyboardFocused" Value="False"/>
+                                </MultiTrigger.Conditions>
+                                <Setter Property="Background" TargetName="Bd" Value="{StaticResource ComboBoxItem.ItemsviewHover.Background}"/>
+                                <Setter Property="BorderBrush" TargetName="Bd" Value="{StaticResource ComboBoxItem.ItemsviewHover.Border}"/>
+                            </MultiTrigger>
+                            <MultiTrigger>
+                                <MultiTrigger.Conditions>
+                                    <Condition Property="IsSelected" Value="True"/>
+                                    <Condition Property="IsMouseOver" Value="False"/>
+                                    <Condition Property="IsKeyboardFocused" Value="True"/>
+                                </MultiTrigger.Conditions>
+                                <Setter Property="Background" TargetName="Bd" Value="{StaticResource ComboBoxItem.ItemsviewSelected.Background}"/>
+                                <Setter Property="BorderBrush" TargetName="Bd" Value="{StaticResource ComboBoxItem.ItemsviewSelected.Border}"/>
+                            </MultiTrigger>
+                            <MultiTrigger>
+                                <MultiTrigger.Conditions>
+                                    <Condition Property="IsSelected" Value="True"/>
+                                    <Condition Property="IsMouseOver" Value="True"/>
+                                </MultiTrigger.Conditions>
+                                <Setter Property="Background" TargetName="Bd" Value="{StaticResource ComboBoxItem.ItemsviewSelectedHover.Background}"/>
+                                <Setter Property="BorderBrush" TargetName="Bd" Value="{StaticResource ComboBoxItem.ItemsviewSelectedHover.Border}"/>
+                            </MultiTrigger>
+                            <MultiTrigger>
+                                <MultiTrigger.Conditions>
+                                    <Condition Property="IsSelected" Value="True"/>
+                                    <Condition Property="IsMouseOver" Value="False"/>
+                                    <Condition Property="IsKeyboardFocused" Value="False"/>
+                                </MultiTrigger.Conditions>
+                                <Setter Property="Background" TargetName="Bd" Value="{StaticResource ComboBoxItem.ItemsviewSelectedNoFocus.Background}"/>
+                                <Setter Property="BorderBrush" TargetName="Bd" Value="{StaticResource ComboBoxItem.ItemsviewSelectedNoFocus.Border}"/>
+                            </MultiTrigger>
+                            <MultiTrigger>
+                                <MultiTrigger.Conditions>
+                                    <Condition Property="IsSelected" Value="False"/>
+                                    <Condition Property="IsMouseOver" Value="False"/>
+                                    <Condition Property="IsKeyboardFocused" Value="True"/>
+                                </MultiTrigger.Conditions>
+                                <Setter Property="BorderBrush" TargetName="Bd" Value="{StaticResource ComboBoxItem.ItemsviewFocus.Border}"/>
+                            </MultiTrigger>
+                            <MultiTrigger>
+                                <MultiTrigger.Conditions>
+                                    <Condition Property="IsSelected" Value="False"/>
+                                    <Condition Property="IsMouseOver" Value="True"/>
+                                    <Condition Property="IsKeyboardFocused" Value="True"/>
+                                </MultiTrigger.Conditions>
+                                <Setter Property="Background" TargetName="Bd" Value="{StaticResource ComboBoxItem.ItemsviewHoverFocus.Background}"/>
+                                <Setter Property="BorderBrush" TargetName="Bd" Value="{StaticResource ComboBoxItem.ItemsviewHoverFocus.Border}"/>
+                            </MultiTrigger>
+                        </ControlTemplate.Triggers>
+                    </ControlTemplate>
+                </Setter.Value>
+            </Setter>
+        </Style>
+    </Window.Resources>
+
+
+    <Grid Background="#FFBBA8A5">
+
+        <Grid.ColumnDefinitions>
+            <ColumnDefinition/>
+        </Grid.ColumnDefinitions>
+        <Grid.RowDefinitions>
+            <RowDefinition/>
+        </Grid.RowDefinitions>
+        <Canvas  Background="#FFCAD2C5" Width="1000" Height="650" >
+            <Canvas x:Name="resultcanvas" Height="591" Width="314" Background="#FFBCC8B4" Visibility="Hidden" Canvas.Left="671" Canvas.Top="38" Panel.ZIndex="1" >
+                <TextBox x:Name="resulttextboxfull" Height="390" Canvas.Left="10" TextWrapping="Wrap" Canvas.Top="150" Width="294" FontFamily="Arial Rounded" FontSize="14" Background="#FFD8DED4" IsReadOnly="True" VerticalScrollBarVisibility="Auto"/>
+                <Label Content="Transaction Response" Width="294" Foreground="#FF3E4437" TextOptions.TextFormattingMode="Display" Background="{x:Null}" BorderBrush="#FFC3C3C3" FontSize="20" Height="32" Canvas.Top="10" HorizontalContentAlignment="Center" VerticalContentAlignment="Center" FontFamily="Arial Rounded MT Bold" FontWeight="Light" Canvas.Left="10"/>
+                <TextBox x:Name="resulttextbox" Height="98" Canvas.Left="10" Canvas.Top="47" Width="294" FontFamily="Arial Rounded" FontSize="24" Background="#FFD8DED4" IsReadOnly="True" TextAlignment="Center" TextWrapping="Wrap" VerticalContentAlignment="Center"/>
+                <Button x:Name="Minimizebutton" Content="Close" Canvas.Left="10" Canvas.Top="545" Width="294" Height="40" Background="#FFA3B199" BorderBrush="#FF78947E" Foreground="#FF3E4437" FontFamily="Arial Rounded MT Bold" FontSize="16" BorderThickness="1" Click="Minimizebutton_Click"/>
+            </Canvas>
+            <Canvas Height="591" Width="314" Background="#FFBCC8B4" Canvas.Left="671" Canvas.Top="36">
+                <Label Content="Settings" Width="294" Foreground="#FF3E4437" TextOptions.TextFormattingMode="Display" Background="#FFBCC8B4" BorderBrush="#FFC3C3C3" FontSize="24" Height="64" HorizontalContentAlignment="Center" VerticalContentAlignment="Center" FontFamily="Arial Rounded MT Bold" FontWeight="Light" Canvas.Left="10" Canvas.Top="10"/>
+                <TextBox x:Name="Key" Background="#FFD8DED4" VerticalContentAlignment="Center" HorizontalContentAlignment="Center" Padding="0,0,0,0" Foreground="#FF6A5F54" BorderThickness="0" TextOptions.TextFormattingMode="Display" MaxLines="1" BorderBrush="#FFC3C3C3" FontSize="16" Height="34" Canvas.Left="10" Canvas.Top="114" Width="294" FontFamily="Arial Rounded MT Bold" FontWeight="Light" HorizontalAlignment="Center" VerticalAlignment="Center"/>
+                <Label Content="xKey" Width="55" Foreground="#FF3E4437" TextOptions.TextFormattingMode="Display"  BorderBrush="#FFC3C3C3" FontSize="16" Height="30" Canvas.Left="10" Canvas.Top="79" HorizontalContentAlignment="Center" VerticalContentAlignment="Center" FontFamily="Arial Rounded MT Bold" FontWeight="Light"/>
+                <ToggleButton x:Name="EnableDeviceCKBox" Content="EnableDeviceInsertSwipeTap" IsChecked="False" Height="40" Width="294" Background="#FFA3B199" BorderBrush="#FF79997F" TextOptions.TextFormattingMode="Display" VerticalContentAlignment="Center" Foreground="#FF3E4437" FontSize="16" Canvas.Left="10" Canvas.Top="188" FontFamily="Arial Rounded MT Bold" FontWeight="Light" BorderThickness="1"/>
+                <Label Content="Device" Width="72" Foreground="#FF3E4437" TextOptions.TextFormattingMode="Display" Background="{x:Null}" BorderBrush="#FFC3C3C3" FontSize="16" Canvas.Left="10" Canvas.Top="153" Height="30" HorizontalContentAlignment="Center" VerticalContentAlignment="Center" FontFamily="Arial Rounded MT Bold" FontWeight="Light"/>
+                <ComboBox ItemContainerStyle="{DynamicResource ComboBoxItemContainerStyle1}" x:Name="DeviceName" Height="36"  Text="" Width="294" Background="#FFD8DED4" TextOptions.TextFormattingMode="Display" VerticalContentAlignment="Center" Foreground="#FF6A5F54" FontSize="16" Canvas.Left="10" Canvas.Top="233" HorizontalContentAlignment="Center" IsEditable="True" Style="{DynamicResource ComboBoxStyle1}" FontFamily="Arial Rounded MT Bold" FontWeight="Light">
+
+                    <ComboBoxItem Content="Verifone_E285.4" />
+                    <ComboBoxItem Content="Verifone_M400.4" />
+                    <ComboBoxItem Content="Verifone_Mx915.4" />
+                    <ComboBoxItem Content="Verifone_Mx915.7" />
+                    <ComboBoxItem Content="Verifone_Mx925.4" />
+                    <ComboBoxItem Content="Verifone_Mx925.7" />
+                    <ComboBoxItem Content="Verifone_P400.4" />
+                    <ComboBoxItem Content="Verifone_P200.4" />
+                    <ComboBoxItem Content="Verifone_Vx805.4" />
+                    <ComboBoxItem Content="Verifone_Mx850.4" />
+                    <ComboBoxItem Content="Verifone_Mx860.4" />
+                    <ComboBoxItem Content="Verifone_Mx870.4" />
+                    <ComboBoxItem Content="Verifone_Mx880.4" />
+                    <ComboBoxItem Content="PAX_A35.3" />
+                    <ComboBoxItem Content="PAX_A60.3" />
+                    <ComboBoxItem Content="PAX_A77.3" />
+                    <ComboBoxItem Content="PAX_A80.3" />
+                    <ComboBoxItem Content="PAX_A920.3" />
+                    <ComboBoxItem Content="PAX_S300.3" />
+                    <ComboBoxItem Content="PAX_S920.3" />
+                    <ComboBoxItem Content="IDTech_VP3300.12" />
+                    <ComboBoxItem Content="IDTech_VP6300.12" />
+                    <ComboBoxItem Content="IDTech_VP6800.12" />
+                    <ComboBoxItem Content="Ingenico_iCT250.2" />
+                    <ComboBoxItem Content="Ingenico_iSC250.6" />
+                    <ComboBoxItem Content="Ingenico_iSC250" />
+
+                </ComboBox>
+                <RadioButton x:Name="IP1" BorderThickness="0" Content="IP" Checked="IP_Checked" Width="46" Background="#FFD8DED4" BorderBrush="#FFC3C3C3" TextOptions.TextFormattingMode="Display" Foreground="#FF3E4437" FontSize="14" VerticalContentAlignment="Center" Canvas.Left="10" Canvas.Top="309" Height="30" HorizontalContentAlignment="Center" FontFamily="Arial Rounded MT Bold" FontWeight="Light"/>
+                <RadioButton x:Name="USB" BorderThickness="0" Content="USB" Checked="USB_Checked" Height="30" Width="50" Background="#FFD8DED4" BorderBrush="#FFC3C3C3" TextOptions.TextFormattingMode="Display" Foreground="#FF3E4437" FontSize="14" VerticalContentAlignment="Center"  Canvas.Left="10" Canvas.Top="274" HorizontalContentAlignment="Center" FontFamily="Arial Rounded MT Bold" FontWeight="Light"  />
+                <TextBox x:Name="COMPort" BorderThickness="0"  Height="30" Text="COM9" Width="52" Background="#FFD8DED4" BorderBrush="#FFC3C3C3" TextOptions.TextFormattingMode="Display" Foreground="#FF6A5F54" FontSize="14" Canvas.Left="65" Canvas.Top="274" FontWeight="Light" HorizontalContentAlignment="Center" VerticalContentAlignment="Center" FontFamily="Arial Rounded MT Bold"/>
+                <TextBox   x:Name="IP"  BorderThickness="0" Height="30" Text="192.168.1.1" Width="93" Background="#FFD8DED4" BorderBrush="#FFC3C3C3" TextOptions.TextFormattingMode="Display" Foreground="#FF6A5F54" FontSize="14" Canvas.Left="65" Canvas.Top="309" HorizontalContentAlignment="Center" VerticalContentAlignment="Center" FontFamily="Arial Rounded MT Bold" FontWeight="Light"/>
+                <TextBox x:Name="IPPort" BorderThickness="0" Text="10009" Width="44" Background="#FFD8DED4" BorderBrush="#FFC3C3C3" TextOptions.TextFormattingMode="Display" Foreground="#FF6A5F54" FontSize="14" Height="30" Canvas.Left="163" Canvas.Top="309" FontWeight="Light" HorizontalContentAlignment="Center" VerticalContentAlignment="Center" FontFamily="Arial Rounded MT Bold"/>
+                <TextBox x:Name="Baud" BorderThickness="0"  Height="30" Text="115200" Width="52" Background="#FFD8DED4" BorderBrush="#FFC3C3C3" TextOptions.TextFormattingMode="Display" Foreground="#FF6A5F54" FontSize="14" Canvas.Left="122" Canvas.Top="274" HorizontalContentAlignment="Center" VerticalContentAlignment="Center" FontFamily="Arial Rounded MT Bold" FontWeight="Light"/>
+                <Image Source="test.png" Stretch="Fill" Height="50" Canvas.Left="254" Width="50" Canvas.Top="10"/>
+                <ToggleButton x:Name="EnableTipPromptCKBox" Content="EnableTipPrompt" IsChecked="False" Height="40" Width="294" Background="#FFA3B199" BorderBrush="#FF79997F" TextOptions.TextFormattingMode="Display" VerticalContentAlignment="Center" Foreground="#FF3E4437" FontSize="14" Canvas.Left="10" Canvas.Top="379" FontFamily="Arial Rounded MT Bold" FontWeight="Light" BorderThickness="1"/>
+                <ToggleButton x:Name="EnableSilentModeCKBox" Content="EnableSilentMode" IsChecked="False" Height="40" Width="294" Background="#FFA3B199" BorderBrush="#FF79997F" TextOptions.TextFormattingMode="Display" VerticalContentAlignment="Center" Foreground="#FF3E4437" FontSize="14" Canvas.Left="10" Canvas.Top="424" FontFamily="Arial Rounded MT Bold" FontWeight="Light" BorderThickness="1"/>
+                <ToggleButton x:Name="xAllowPartialAuthCKBox" Content="xAllowPartialAuth" IsChecked="False" Height="40" Width="294" Background="#FFA3B199" BorderBrush="#FF79997F" TextOptions.TextFormattingMode="Display" VerticalContentAlignment="Center" Foreground="#FF3E4437" FontSize="14" Canvas.Left="10" Canvas.Top="469" FontFamily="Arial Rounded MT Bold" FontWeight="Light" BorderThickness="1" HorizontalAlignment="Center" VerticalAlignment="Top"/>
+                <Button x:Name="Expandbutton" Content="Recent Transaction" Canvas.Left="10" Canvas.Top="545" Width="294" Height="40" Background="#FFA3B199" BorderBrush="#FF79997F" Foreground="#FF3E4437" FontFamily="Arial Rounded MT Bold" FontSize="16" BorderThickness="1" Click="Expandbutton_Click"/>
+                <Label Content="Other" Width="71" Foreground="#FF3E4437" TextOptions.TextFormattingMode="Display" Background="{x:Null}" BorderBrush="#FFC3C3C3" FontSize="16" Canvas.Left="10" Canvas.Top="344" Height="30" HorizontalContentAlignment="Center" VerticalContentAlignment="Center" FontFamily="Arial Rounded MT Bold" FontWeight="Light"/>
+            </Canvas>
+            <TabControl Height="619" Width="642" BorderThickness="0" Background="#FFCAD2C5" Canvas.Left="10" Canvas.Top="10">
+                <TabItem x:Name="transaction" Header="Payments" >
+                    <Grid  Background="#FFBCC8B4"   >
+
+                        <Canvas  Margin="20,316,20,10" Background="#FFAFC1A3">
+                            <TextBox x:Name="RefNum" Text="" Background="#FFD8DED4" VerticalContentAlignment="Center" HorizontalContentAlignment="Center" Padding="0,0,0,0" Foreground="#FF6E7862" BorderThickness="0" TextOptions.TextFormattingMode="Display" MaxLines="1" BorderBrush="#FFC3C3C3" FontSize="24" Height="40" Canvas.Left="19" Canvas.Top="49" Width="135" FontFamily="Arial Rounded MT Bold" FontWeight="Light" Margin="0" HorizontalAlignment="Center" VerticalAlignment="Center"/>
+                            <Label Content="xRefNum" Width="135" Foreground="#FF3E4437" TextOptions.TextFormattingMode="Display" Background="{x:Null}" BorderBrush="#FFC3C3C3" FontSize="16" Height="30" Canvas.Left="19" Canvas.Top="14" HorizontalContentAlignment="Center" VerticalContentAlignment="Center" FontFamily="Arial Rounded MT Bold"/>
+                            <TextBox x:Name="Invoice" Text="" Background="#FFD8DED4" VerticalContentAlignment="Center" HorizontalContentAlignment="Center" Padding="0,0,0,0" Foreground="#FF6E7862" BorderThickness="0" TextOptions.TextFormattingMode="Display" MaxLines="1" BorderBrush="#FFC3C3C3" FontSize="24" Height="40" Canvas.Left="19" Canvas.Top="129" Width="135" FontFamily="Arial Rounded MT Bold" FontWeight="Light" Margin="0" HorizontalAlignment="Center" VerticalAlignment="Center"/>
+
+
+
+
+
+
+
+
+
+
+
+                            <TextBox x:Name="Street" Text="" Background="#FFD8DED4" VerticalContentAlignment="Center" HorizontalContentAlignment="Center" Padding="0,0,0,0" Foreground="#FF6E7862" BorderThickness="0" TextOptions.TextFormattingMode="Display" MaxLines="1" BorderBrush="#FFC3C3C3" FontSize="24" Height="40" Canvas.Left="159" Canvas.Top="129" Width="137" FontFamily="Arial Rounded MT Bold" FontWeight="Light" Margin="0" HorizontalAlignment="Center" VerticalAlignment="Center"/>
+                            <Label Content="xStreet" Width="135" Foreground="#FF3E4437" TextOptions.TextFormattingMode="Display" Background="{x:Null}" BorderBrush="#FFC3C3C3" FontSize="16" Height="30" Canvas.Left="159" Canvas.Top="94" HorizontalContentAlignment="Center" VerticalContentAlignment="Center" FontFamily="Arial Rounded MT Bold"/>
+                            <TextBox x:Name="Zip" Text="" Background="#FFD8DED4" VerticalContentAlignment="Center" HorizontalContentAlignment="Center" Padding="0,0,0,0" Foreground="#FF6E7862" BorderThickness="0" TextOptions.TextFormattingMode="Display" MaxLines="1" BorderBrush="#FFC3C3C3" FontSize="24" Height="40" Canvas.Left="301" Canvas.Top="129" Width="133" FontFamily="Arial Rounded MT Bold" FontWeight="Light" Margin="0" HorizontalAlignment="Center" VerticalAlignment="Center"/>
+                            <Label Content="xZip" Width="133" Foreground="#FF3E4437" TextOptions.TextFormattingMode="Display" Background="{x:Null}" BorderBrush="#FFC3C3C3" FontSize="16" Height="30" Canvas.Left="301" Canvas.Top="94" HorizontalContentAlignment="Center" VerticalContentAlignment="Center" FontFamily="Arial Rounded MT Bold"/>
+                            <TextBox x:Name="Email" Text="" Background="#FFD8DED4" VerticalContentAlignment="Center" HorizontalContentAlignment="Center" Padding="0,0,0,0" Foreground="#FF6E7862" BorderThickness="0" TextOptions.TextFormattingMode="Display" MaxLines="1" BorderBrush="#FFC3C3C3" FontSize="24" Height="40" Canvas.Left="439" Canvas.Top="49" Width="135" FontFamily="Arial Rounded MT Bold" FontWeight="Light" Margin="0" HorizontalAlignment="Center" VerticalAlignment="Center"/>
+                            <Label Content="xEmail" Width="135" Foreground="#FF3E4437" TextOptions.TextFormattingMode="Display" Background="{x:Null}" BorderBrush="#FFC3C3C3" FontSize="16" Height="30" Canvas.Left="439" Canvas.Top="14" HorizontalContentAlignment="Center" VerticalContentAlignment="Center" FontFamily="Arial Rounded MT Bold"/>
+
+
+                            <TextBox x:Name="Items" Text="" Background="#FFD8DED4" VerticalContentAlignment="Center" HorizontalContentAlignment="Center" Padding="0,0,0,0" Foreground="#FF6E7862" BorderThickness="0" TextOptions.TextFormattingMode="Display" MaxLines="1" BorderBrush="#FFC3C3C3" FontSize="24" Height="40" Canvas.Left="19" Canvas.Top="209" Width="135" FontFamily="Arial Rounded MT Bold" FontWeight="Light" Margin="0" HorizontalAlignment="Center" VerticalAlignment="Center"/>
+                            <Label Content="Items (json)" Width="138" Foreground="#FF3E4437" TextOptions.TextFormattingMode="Display" Background="{x:Null}" BorderBrush="#FFC3C3C3" FontSize="16" Height="30" Canvas.Left="16" Canvas.Top="174" HorizontalContentAlignment="Center" VerticalContentAlignment="Center" FontFamily="Arial Rounded MT Bold"/>
+                            <TextBox x:Name="Description" Text="" Background="#FFD8DED4" VerticalContentAlignment="Center" HorizontalContentAlignment="Center" Padding="0,0,0,0" Foreground="#FF6E7862" BorderThickness="0" TextOptions.TextFormattingMode="Display" MaxLines="1" BorderBrush="#FFC3C3C3" FontSize="24" Height="40" Canvas.Left="439" Canvas.Top="129" Width="135" FontFamily="Arial Rounded MT Bold" FontWeight="Light" Margin="0" HorizontalAlignment="Center" VerticalAlignment="Center"/>
+                            <Label Content="xDescription" Width="135" Foreground="#FF3E4437" TextOptions.TextFormattingMode="Display" Background="{x:Null}" BorderBrush="#FFC3C3C3" FontSize="16" Height="30" Canvas.Left="439" Canvas.Top="94" HorizontalContentAlignment="Center" VerticalContentAlignment="Center" FontFamily="Arial Rounded MT Bold"/>
+                            <TextBox x:Name="none_Copy1" Text="" Background="#FFD8DED4" VerticalContentAlignment="Center" HorizontalContentAlignment="Center" Padding="0,0,0,0" Foreground="#FF6E7862" BorderThickness="0" TextOptions.TextFormattingMode="Display" MaxLines="1" BorderBrush="#FFC3C3C3" FontSize="24" Height="40" Canvas.Left="439" Canvas.Top="209" Width="135" FontFamily="Arial Rounded MT Bold" FontWeight="Light" Margin="0" HorizontalAlignment="Center" VerticalAlignment="Center"/>
+                            <Label Content="----" Width="135" Foreground="#FF3E4437" TextOptions.TextFormattingMode="Display" Background="{x:Null}" BorderBrush="#FFC3C3C3" FontSize="16" Height="30" Canvas.Left="439" Canvas.Top="174" HorizontalContentAlignment="Center" VerticalContentAlignment="Center" FontFamily="Arial Rounded MT Bold"/>
+                            <TextBox x:Name="none_Copy2" Text="" Background="#FFD8DED4" VerticalContentAlignment="Center" HorizontalContentAlignment="Center" Padding="0,0,0,0" Foreground="#FF6E7862" BorderThickness="0" TextOptions.TextFormattingMode="Display" MaxLines="1" BorderBrush="#FFC3C3C3" FontSize="24" Height="40" Canvas.Left="301" Canvas.Top="209" Width="133" FontFamily="Arial Rounded MT Bold" FontWeight="Light" Margin="0" HorizontalAlignment="Center" VerticalAlignment="Center"/>
+                            <Label Content="----" Width="135" Foreground="#FF3E4437" TextOptions.TextFormattingMode="Display" Background="{x:Null}" BorderBrush="#FFC3C3C3" FontSize="16" Height="30" Canvas.Left="299" Canvas.Top="174" HorizontalContentAlignment="Center" VerticalContentAlignment="Center" FontFamily="Arial Rounded MT Bold"/>
+                            <TextBox x:Name="none_Copy3" Text="" Background="#FFD8DED4" VerticalContentAlignment="Center" HorizontalContentAlignment="Center" Padding="0,0,0,0" Foreground="#FF6E7862" BorderThickness="0" TextOptions.TextFormattingMode="Display" MaxLines="1" BorderBrush="#FFC3C3C3" FontSize="24" Height="40" Canvas.Left="159" Canvas.Top="209" Width="137" FontFamily="Arial Rounded MT Bold" FontWeight="Light" Margin="0" HorizontalAlignment="Center" VerticalAlignment="Center"/>
+                            <Label Content="----" Width="137" Foreground="#FF3E4437" TextOptions.TextFormattingMode="Display" Background="{x:Null}" BorderBrush="#FFC3C3C3" FontSize="16" Height="30" Canvas.Left="159" Canvas.Top="174" HorizontalContentAlignment="Center" VerticalContentAlignment="Center" FontFamily="Arial Rounded MT Bold"/>
+                            <Label Content="xName" Width="135" Foreground="#FF3E4437" TextOptions.TextFormattingMode="Display" Background="{x:Null}" BorderBrush="#FFC3C3C3" FontSize="16" Height="30" Canvas.Left="159" Canvas.Top="14" HorizontalContentAlignment="Center" VerticalContentAlignment="Center" FontFamily="Arial Rounded MT Bold"/>
+                            <Label Content="xInvoice" Width="135" Foreground="#FF3E4437" TextOptions.TextFormattingMode="Display" Background="{x:Null}" BorderBrush="#FFC3C3C3" FontSize="16" Height="30" Canvas.Left="19" Canvas.Top="94" HorizontalContentAlignment="Center" VerticalContentAlignment="Center" FontFamily="Arial Rounded MT Bold"/>
+                            <TextBox x:Name="Namee" Text="" Background="#FFD8DED4" VerticalContentAlignment="Center" HorizontalContentAlignment="Center" Padding="0,0,0,0" Foreground="#FF6E7862" BorderThickness="0" TextOptions.TextFormattingMode="Display" MaxLines="1" BorderBrush="#FFC3C3C3" FontSize="24" Height="40" Canvas.Left="159" Canvas.Top="49" Width="135" FontFamily="Arial Rounded MT Bold" FontWeight="Light" Margin="0" HorizontalAlignment="Center" VerticalAlignment="Center"/>
+
+
+                            <TextBox x:Name="Currency" Text="" Background="#FFD8DED4" VerticalContentAlignment="Center" HorizontalContentAlignment="Center" Padding="0,0,0,0" Foreground="#FF6E7862" BorderThickness="0" TextOptions.TextFormattingMode="Display" MaxLines="1" BorderBrush="#FFC3C3C3" FontSize="24" Height="40" Canvas.Left="299" Canvas.Top="49" Width="135" FontFamily="Arial Rounded MT Bold" FontWeight="Light" Margin="0" HorizontalAlignment="Center" VerticalAlignment="Center"/>
+                            <Label Content="xCurrency" Width="135" Foreground="#FF3E4437" TextOptions.TextFormattingMode="Display" Background="{x:Null}" BorderBrush="#FFC3C3C3" FontSize="16" Height="30" Canvas.Left="299" Canvas.Top="14" HorizontalContentAlignment="Center" VerticalContentAlignment="Center" FontFamily="Arial Rounded MT Bold"/>
+                        </Canvas>
+                        <Canvas  Margin="435,20,20,295"  Background="#FFAFC1A3">
+                            <TextBox x:Name="Amount" Text="" Background="#FFD8DED4" VerticalContentAlignment="Center" HorizontalContentAlignment="Center" Padding="0,0,0,0" Foreground="#FF6E7862" BorderThickness="0" TextOptions.TextFormattingMode="Display" MaxLines="1" BorderBrush="#FFC3C3C3" FontSize="48" Height="115" Canvas.Left="10" Canvas.Top="151" Width="163" FontFamily="Arial Rounded MT Bold" FontWeight="Light" HorizontalAlignment="Center" VerticalAlignment="Center"/>
+                            <Label Content="xAmount" Width="163" Foreground="#FF3E4437" TextOptions.TextFormattingMode="Display" Background="{x:Null}" BorderBrush="#FFC3C3C3" FontSize="24" Height="50" Canvas.Top="39" HorizontalContentAlignment="Center" VerticalContentAlignment="Center" FontFamily="Arial Rounded MT Bold" FontWeight="Light" Canvas.Left="10"/>
+                        </Canvas>
+                        <Grid  Background="#FFAFC1A3" Margin="20,20,220,295">
+                            <Grid.ColumnDefinitions>
+                                <ColumnDefinition></ColumnDefinition>
+                                <ColumnDefinition></ColumnDefinition>
+                                <ColumnDefinition></ColumnDefinition>
+                                <ColumnDefinition></ColumnDefinition>
+                            </Grid.ColumnDefinitions>
+                            <Grid.RowDefinitions>
+                                <RowDefinition></RowDefinition>
+                                <RowDefinition></RowDefinition>
+                                <RowDefinition></RowDefinition>
+                            </Grid.RowDefinitions>
+                            <Button  x:Name="Sale"  Content="cc:sale"  VerticalContentAlignment="Center" HorizontalContentAlignment="Center" BorderThickness="1,1,1,1" BorderBrush="#FF79997F" TextOptions.TextFormattingMode="Display" Background="#FFA3B199" Foreground="#FF3E4437" FontFamily="Arial Rounded MT Bold" FontWeight="Bold"  Click="Sale_Click" Grid.Row="0" />
+                            <Button x:Name="Void" Content="cc:void"  VerticalContentAlignment="Center" HorizontalContentAlignment="Center" BorderThickness="1,1,1,1" BorderBrush="#FF79997F" TextOptions.TextFormattingMode="Display" Background="#FFA3B199" Foreground="#FF3E4437" FontFamily="Arial Rounded MT Bold" FontWeight="Bold"  Click="Void_Click" Grid.Row="0" Grid.Column="1"/>
+                            <Button x:Name="Refund" Content="cc:refund"  VerticalContentAlignment="Center" HorizontalContentAlignment="Center" BorderThickness="1,1,1,1" BorderBrush="#FF79997F" TextOptions.TextFormattingMode="Display" Background="#FFA3B199" Foreground="#FF3E4437" FontFamily="Arial Rounded MT Bold" FontWeight="Bold"  Click="Refund_Click" Grid.Row="0" Grid.Column="2"/>
+                            <Button x:Name="Credit" Content="cc:credit"  VerticalContentAlignment="Center" HorizontalContentAlignment="Center" BorderThickness="1,1,1,1" BorderBrush="#FF79997F" TextOptions.TextFormattingMode="Display" Background="#FFA3B199" Foreground="#FF3E4437" FontFamily="Arial Rounded MT Bold" FontWeight="Bold" Click="Credit_Click" Grid.Row="1" Grid.Column="0"/>
+                            <Button x:Name="Capture" Content="cc:capture"  VerticalContentAlignment="Center" HorizontalContentAlignment="Center" BorderThickness="1,1,1,1" BorderBrush="#FF79997F" TextOptions.TextFormattingMode="Display" Background="#FFA3B199" Foreground="#FF3E4437" FontFamily="Arial Rounded MT Bold" FontWeight="Bold"  Click="Capture_Click" Grid.Row="1" Grid.Column="1"/>
+                            <Button x:Name="Auth" Content="cc:authonly"  VerticalContentAlignment="Center" HorizontalContentAlignment="Center" BorderThickness="1,1,1,1" BorderBrush="#FF79997F" TextOptions.TextFormattingMode="Display" Background="#FFA3B199" Foreground="#FF3E4437" FontFamily="Arial Rounded MT Bold" FontWeight="Bold" Click="Auth_Click" Grid.Row="1" Grid.Column="2"/>
+                            <Button x:Name="ebtfs_sale" Content="ebtfs:sale"  VerticalContentAlignment="Center" HorizontalContentAlignment="Center" BorderThickness="1,1,1,1" BorderBrush="#FF79997F" TextOptions.TextFormattingMode="Display" Background="#FFA3B199" Foreground="#FF3E4437" FontFamily="Arial Rounded MT Bold" FontWeight="Bold"  Click="EBTFSSALE_Click" Grid.Row="2" Grid.Column="0"  />
+                            <Button x:Name="ebtfs_balance" Content="ebtfs:balance"  VerticalContentAlignment="Center" HorizontalContentAlignment="Center" BorderThickness="1,1,1,1" BorderBrush="#FF79997F" TextOptions.TextFormattingMode="Display" Background="#FFA3B199" Foreground="#FF3E4437" FontFamily="Arial Rounded MT Bold" FontWeight="Bold"  Click="EBTFSBALANCE_Click" Grid.Row="2" Grid.Column="1" />
+                            <Button x:Name="ebtfs_credit" Content="ebtfs:credit"  VerticalContentAlignment="Center" HorizontalContentAlignment="Center" BorderThickness="1,1,1,1" BorderBrush="#FF79997F" TextOptions.TextFormattingMode="Display" Background="#FFA3B199" Foreground="#FF3E4437" FontFamily="Arial Rounded MT Bold" FontWeight="Bold" Grid.Row="2" Grid.Column="2" Click="ebtfs_credit_Click" />
+                            <Button x:Name="quickebtw" Content="QuickEbtw"  VerticalContentAlignment="Center" HorizontalContentAlignment="Center" BorderThickness="1,1,1,1" BorderBrush="#FF79997F" TextOptions.TextFormattingMode="Display" Background="#FFA3B199" Foreground="#FF3E4437" FontFamily="Arial Rounded MT Bold" Grid.Row="2" Grid.Column="3"  FontWeight="Bold" Click="quickebtw_Click" />
+                        </Grid>
+                    </Grid>
+                </TabItem>
+
+                <TabItem x:Name="functions" Header="Device Commands"     >
+
+                    <Grid  Background="#FFBCC8B4"   >
+                        <Grid   Background="#FFBCC8B4" Margin="20,20,20,20" >
+
+                            <Grid.ColumnDefinitions>
+                                <ColumnDefinition></ColumnDefinition>
+                                <ColumnDefinition></ColumnDefinition>
+                                <ColumnDefinition></ColumnDefinition>
+                            </Grid.ColumnDefinitions>
+                            <Grid.RowDefinitions>
+                                <RowDefinition></RowDefinition>
+                                <RowDefinition></RowDefinition>
+                                <RowDefinition></RowDefinition>
+                                <RowDefinition></RowDefinition>
+                                <RowDefinition></RowDefinition>
+                                <RowDefinition></RowDefinition>
+                                <RowDefinition></RowDefinition>
+                                <RowDefinition></RowDefinition>
+
+                            </Grid.RowDefinitions>
+
+                            <Button x:Name="ShowItemButton" Content="Device_ShowItems"  Click="ShowItemButton_Click" FontSize="16" BorderBrush="#FF79997F" TextOptions.TextFormattingMode="Display" Background="#FFA3B199" Foreground="#FF3E4437" FontFamily="Arial Rounded MT Bold" BorderThickness="1,1,1,1" FontWeight="Bold" Grid.Row="0" Grid.Column="0" />
+                            <Button x:Name="GetSignatureButton" Content="GetSignature"  Click="GetSignatureButton_Click" FontSize="16" BorderBrush="#FF79997F" TextOptions.TextFormattingMode="Display"  HorizontalContentAlignment="Center" Background="#FFA3B199" Foreground="#FF3E4437" FontFamily="Arial Rounded MT Bold" BorderThickness="1,1,1,1"  FontWeight="Bold" Grid.Row="0" Grid.Column="1"/>
+                            <Button x:Name="ShowWelcomeScreenButton"  Content="ShowWelcomeScreen"  Click="ShowWelcomeScreenButton_Click"  FontSize="16" BorderBrush="#FF79997F" TextOptions.TextFormattingMode="Display" VerticalContentAlignment="Center" HorizontalContentAlignment="Center" Padding="0" ScrollViewer.CanContentScroll="True" Background="#FFA3B199" Foreground="#FF3E4437" FontFamily="Arial Rounded MT Bold" BorderThickness="1,1,1,1"  FontWeight="Bold" Grid.Row="0" Grid.Column="2"/>
+                            <Button x:Name="GetSignatureAndSaveToFile" Content="GetSignatureAndSave&#xA;ToFile" Click="GetSignatureAndSaveToFile_Click" FontSize="16" BorderBrush="#FF79997F" TextOptions.TextFormattingMode="Display" Background="#FFA3B199" Foreground="#FF3E4437" FontFamily="Arial Rounded MT Bold" BorderThickness="1,1,1,1"  FontWeight="Bold" Grid.Row="1" Grid.Column="0"/>
+                            <Button x:Name="CheckOS"  Content="Device_OsUpdate&#xA;Available"  FontSize="16" BorderBrush="#FF79997F" TextOptions.TextFormattingMode="Display"   ScrollViewer.CanContentScroll="True" Click="CheckOS_Click" Background="#FFA3B199" Foreground="#FF3E4437" FontFamily="Arial Rounded MT Bold" BorderThickness="1,1,1,1"  FontWeight="Bold" Grid.Row="1" Grid.Column="1"/>
+                            <Button x:Name="UpdateOS"  Content="Device_UpdateOS"  FontSize="16" BorderBrush="#FF79997F" TextOptions.TextFormattingMode="Display" VerticalContentAlignment="Center" HorizontalContentAlignment="Center" Padding="0" ScrollViewer.CanContentScroll="True" Click="UpdateOS_Click" Background="#FFA3B199" Foreground="#FF3E4437" FontFamily="Arial Rounded MT Bold" BorderThickness="1,1,1,1" FontWeight="Bold" Grid.Row="1" Grid.Column="2"/>
+                            <Button x:Name="UpdateFirmware"  Content="Device_UpdateFirmware"  FontSize="16" BorderBrush="#FF79997F" TextOptions.TextFormattingMode="Display" VerticalContentAlignment="Center" HorizontalContentAlignment="Center" Padding="0" ScrollViewer.CanContentScroll="True" Click="UpdateFirmware_Click" Background="#FFA3B199" Foreground="#FF3E4437" FontFamily="Arial Rounded MT Bold" BorderThickness="1,1,1,1"  FontWeight="Bold" Grid.Row="2" Grid.Column="0"/>
+                            <Button x:Name="CheckFirmware"  Content="Device_FirmwareUpdate&#xA;Available"  BorderBrush="#FF79997F" TextOptions.TextFormattingMode="Display" VerticalContentAlignment="Center" HorizontalContentAlignment="Center" Padding="0" ScrollViewer.CanContentScroll="True" Click="CheckFirmware_Click" Background="#FFA3B199" Foreground="#FF3E4437" FontFamily="Arial Rounded MT Bold" BorderThickness="1,1,1,1" FontSize="16" FontWeight="Bold" Grid.Row="2" Grid.Column="1"/>
+                            <Button x:Name="Device_PromptEntry"  Content="PromptEntry" FontSize="16" BorderBrush="#FF79997F" TextOptions.TextFormattingMode="Display" VerticalContentAlignment="Center" HorizontalContentAlignment="Center" Padding="0" ScrollViewer.CanContentScroll="True" Background="#FFA3B199" Foreground="#FF3E4437" FontFamily="Arial Rounded MT Bold" BorderThickness="1,1,1,1" Click="Device_PromptEntry_Click"  FontWeight="Bold" Grid.Row="2" Grid.Column="2" />
+                            <Button x:Name="Form_Copy"  Content="PromptForConfirmation"  FontSize="16" BorderBrush="#FF79997F" TextOptions.TextFormattingMode="Display" VerticalContentAlignment="Center" HorizontalContentAlignment="Center" Padding="0" ScrollViewer.CanContentScroll="True" Background="#FFA3B199" Foreground="#FF3E4437" FontFamily="Arial Rounded MT Bold" BorderThickness="1,1,1,1" Click="Form_Copy_Click" FontWeight="Bold" Grid.Row="3" Grid.Column="0"/>
+                            <Button x:Name="Form_Copy1"  Content="PromptForZip" FontSize="16" BorderBrush="#FF79997F" TextOptions.TextFormattingMode="Display" VerticalContentAlignment="Center" HorizontalContentAlignment="Center" Padding="0" ScrollViewer.CanContentScroll="True" Background="#FFA3B199" Foreground="#FF3E4437" FontFamily="Arial Rounded MT Bold" BorderThickness="1,1,1,1" Click="Form_Copy1_Click"  FontWeight="Bold" Grid.Row="3" Grid.Column="1"/>
+                            <Button x:Name="Form_Copy2"  Content="GetScreenShot"  FontSize="16" BorderBrush="#FF79997F" TextOptions.TextFormattingMode="Display" VerticalContentAlignment="Center" HorizontalContentAlignment="Center" Padding="0" ScrollViewer.CanContentScroll="True" Background="#FFA3B199" Foreground="#FF3E4437" FontFamily="Arial Rounded MT Bold" BorderThickness="1,1,1,1" Click="Form_Copy2_Click"  FontWeight="Bold" Grid.Row="3" Grid.Column="2"/>
+                            <Button x:Name="Form_Copy3"  Content="ShowLongMessage"  FontSize="16" BorderBrush="#FF79997F" TextOptions.TextFormattingMode="Display" VerticalContentAlignment="Center" HorizontalContentAlignment="Center" Padding="0" ScrollViewer.CanContentScroll="True" Background="#FFA3B199" Foreground="#FF3E4437" FontFamily="Arial Rounded MT Bold" BorderThickness="1,1,1,1" Click="Form_Copy3_Click"  FontWeight="Bold" Grid.Row="4" Grid.Column="0" />
+                            <Button x:Name="Form_Copy4"  Content="PromptForEmail"  FontSize="16" BorderBrush="#FF79997F" TextOptions.TextFormattingMode="Display" VerticalContentAlignment="Center" HorizontalContentAlignment="Center" Padding="0" ScrollViewer.CanContentScroll="True" Background="#FFA3B199" Foreground="#FF3E4437" FontFamily="Arial Rounded MT Bold" BorderThickness="1,1,1,1" Click="Form_Copy4_Click"  FontWeight="Bold" Grid.Row="4" Grid.Column="1"/>
+                            <Button x:Name="Form_Copy5"  Content="ShowMessage"  FontSize="16" BorderBrush="#FF79997F" TextOptions.TextFormattingMode="Display" VerticalContentAlignment="Center" HorizontalContentAlignment="Center" Padding="0" ScrollViewer.CanContentScroll="True" Background="#FFA3B199" Foreground="#FF3E4437" FontFamily="Arial Rounded MT Bold" BorderThickness="1,1,1,1" Click="Form_Copy5_Click"  FontWeight="Bold" Grid.Row="4" Grid.Column="2" />
+                            <Button x:Name="Form_Copy6"  Content="ShowLongMessage&#xA;WithConfirmation"  FontSize="16" BorderBrush="#FF79997F" TextOptions.TextFormattingMode="Display" VerticalContentAlignment="Center" HorizontalContentAlignment="Center" Padding="0" ScrollViewer.CanContentScroll="True" Background="#FFA3B199" Foreground="#FF3E4437" FontFamily="Arial Rounded MT Bold" BorderThickness="1,1,1,1" Click="Form_Copy6_Click"  FontWeight="Bold" Grid.Row="5" Grid.Column="0"/>
+                            <Button x:Name="Form_Copy7"  Content="PromptForPhone_JSON" FontSize="16" BorderBrush="#FF79997F" TextOptions.TextFormattingMode="Display" VerticalContentAlignment="Center" HorizontalContentAlignment="Center" Padding="0" ScrollViewer.CanContentScroll="True" Background="#FFA3B199" Foreground="#FF3E4437" FontFamily="Arial Rounded MT Bold" BorderThickness="1,1,1,1" Click="Form_Copy7_Click"  FontWeight="Bold" Grid.Row="5" Grid.Column="1"/>
+                            <Button x:Name="DeviceInitialize"  Content="DeviceInitialize"  FontSize="16" BorderBrush="#FF79997F" TextOptions.TextFormattingMode="Display" VerticalContentAlignment="Center" HorizontalContentAlignment="Center" Padding="0" ScrollViewer.CanContentScroll="True" Background="#FFA3B199" Foreground="#FF3E4437" FontFamily="Arial Rounded MT Bold" BorderThickness="1,1,1,1"  FontWeight="Bold" Click="DeviceInitialize_Click" Grid.Row="5" Grid.Column="2"/>
+                            <Button x:Name="DeviceForceInitialize"  Content="DeviceForceInitialize"   FontSize="16" BorderBrush="#FF79997F" TextOptions.TextFormattingMode="Display" VerticalContentAlignment="Center" HorizontalContentAlignment="Center" ScrollViewer.CanContentScroll="True" Background="#FFA3B199" Foreground="#FF3E4437" FontFamily="Arial Rounded MT Bold" BorderThickness="1,1,1,1"  FontWeight="Bold" Click="DeviceForceInitialize_Click" Grid.Row="6" Grid.Column="0"/>
+                            <Button x:Name="empty1"  Content=""   FontSize="16" BorderBrush="#FF79997F" TextOptions.TextFormattingMode="Display" VerticalContentAlignment="Center" HorizontalContentAlignment="Center" ScrollViewer.CanContentScroll="True" Background="#FFA3B199" Foreground="#FF3E4437" FontFamily="Arial Rounded MT Bold" BorderThickness="1,1,1,1"  FontWeight="Bold" Grid.Row="6" Grid.Column="1"/>
+                            <Button x:Name="empty2"  Content=""   FontSize="16" BorderBrush="#FF79997F" TextOptions.TextFormattingMode="Display" VerticalContentAlignment="Center" HorizontalContentAlignment="Center" ScrollViewer.CanContentScroll="True" Background="#FFA3B199" Foreground="#FF3E4437" FontFamily="Arial Rounded MT Bold" BorderThickness="1,1,1,1"  FontWeight="Bold" Grid.Row="6" Grid.Column="2"/>
+                            <Button x:Name="empty3"  Content=""   FontSize="16" BorderBrush="#FF79997F" TextOptions.TextFormattingMode="Display" VerticalContentAlignment="Center" HorizontalContentAlignment="Center" ScrollViewer.CanContentScroll="True" Background="#FFA3B199" Foreground="#FF3E4437" FontFamily="Arial Rounded MT Bold" BorderThickness="1,1,1,1"  FontWeight="Bold" Grid.Row="7" Grid.Column="0"/>
+                            <Button x:Name="empty4"  Content=""   FontSize="16" BorderBrush="#FF79997F" TextOptions.TextFormattingMode="Display" VerticalContentAlignment="Center" HorizontalContentAlignment="Center" ScrollViewer.CanContentScroll="True" Background="#FFA3B199" Foreground="#FF3E4437" FontFamily="Arial Rounded MT Bold" BorderThickness="1,1,1,1"  FontWeight="Bold" Grid.Row="7" Grid.Column="1"/>
+                            <Button x:Name="empty5"  Content=""   FontSize="16" BorderBrush="#FF79997F" TextOptions.TextFormattingMode="Display" VerticalContentAlignment="Center" HorizontalContentAlignment="Center" ScrollViewer.CanContentScroll="True" Background="#FFA3B199" Foreground="#FF3E4437" FontFamily="Arial Rounded MT Bold" BorderThickness="1,1,1,1"  FontWeight="Bold" Grid.Row="7" Grid.Column="2"/>
+
+                        </Grid>
+
+                    </Grid>
+                </TabItem>
+                <TabItem x:Name="report" Header="Reports" IsEnabled="False"   >
+                    <Grid Background="#FFE5E5E5">
+                        <Grid
+          Grid.Column="0"
+          Background="#DCC7AA" >
+                            <Button x:Name="reportapproved" Content="Report" HorizontalAlignment="Left" Margin="10,10,0,0" VerticalAlignment="Top" Width="164" Height="40" FontSize="20" VerticalContentAlignment="Center" HorizontalContentAlignment="Center" BorderThickness="1" BorderBrush="#FFB0B0B0" TextOptions.TextFormattingMode="Display" Background="#FF9CAC9F" Foreground="#FF3E4437" FontFamily="Calibri" FontWeight="Light" Click="Report_Click"/>
+                            <DataGrid x:Name="reportgrid" ItemsSource="{Binding}" HorizontalAlignment="Left" Height="190" Margin="179,10,0,0" VerticalAlignment="Top" Width="447"/>
+                            <ComboBox x:Name="reporttype" Height="34"  Text="" VerticalAlignment="Top" HorizontalAlignment="Left" Width="164" Background="#FFA3B199" BorderBrush="#FFC3C3C3" TextOptions.TextFormattingMode="Display" VerticalContentAlignment="Center" Foreground="#FF3E4437" FontSize="16" HorizontalContentAlignment="Center" IsEditable="True" Style="{DynamicResource ComboBoxStyle1}" FontFamily="Calibri" FontWeight="Light" Margin="10,55,0,0">
+
+                                <ComboBoxItem Content="report:all" />
+                                <ComboBoxItem Content="report:approved" />
+                                <ComboBoxItem Content="report:auth" />
+                                <ComboBoxItem Content="report:declined" />
+                                <ComboBoxItem Content="report:batch" />
+
+
+                            </ComboBox>
+                            <DatePicker  x:Name="begindate" HorizontalAlignment="Left" Margin="10,94,0,0" VerticalAlignment="Top" Width="164"  SelectedDateChanged="Begindate_SelectedDateChanged"/>
+                        </Grid>
+                    </Grid>
+                </TabItem>
+            </TabControl>
+        </Canvas>
+
+
+
+
+    </Grid>
+</Window>

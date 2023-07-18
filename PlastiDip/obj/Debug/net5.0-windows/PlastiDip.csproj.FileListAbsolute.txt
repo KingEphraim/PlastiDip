@@ -1,0 +1,5 @@
+C:\Users\Elefkowitz\OneDrive - Fidelity Payment Services\Desktop\MyFiles\Work\SoftwareAndCode\VS Projects\PlastiDip\PlastiDip\obj\Debug\net5.0-windows\PlastiDip.csproj.AssemblyReference.cache
+C:\Users\Elefkowitz\OneDrive - Fidelity Payment Services\Desktop\MyFiles\Work\SoftwareAndCode\VS Projects\PlastiDip\PlastiDip\obj\Debug\net5.0-windows\MainWindow.g.cs
+C:\Users\Elefkowitz\OneDrive - Fidelity Payment Services\Desktop\MyFiles\Work\SoftwareAndCode\VS Projects\PlastiDip\PlastiDip\obj\Debug\net5.0-windows\App.g.cs
+C:\Users\Elefkowitz\OneDrive - Fidelity Payment Services\Desktop\MyFiles\Work\SoftwareAndCode\VS Projects\PlastiDip\PlastiDip\obj\Debug\net5.0-windows\PlastiDip_MarkupCompile.cache
+C:\Users\Elefkowitz\OneDrive - Fidelity Payment Services\Desktop\MyFiles\Work\SoftwareAndCode\VS Projects\PlastiDip\PlastiDip\obj\Debug\net5.0-windows\PlastiDip_MarkupCompile.lref

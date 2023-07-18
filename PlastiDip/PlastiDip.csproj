@@ -1,0 +1,35 @@
+﻿<Project Sdk="Microsoft.NET.Sdk">
+
+  <PropertyGroup>
+    <OutputType>WinExe</OutputType>
+    <TargetFramework>net7.0-windows</TargetFramework>
+    <Nullable>enable</Nullable>
+    <UseWPF>true</UseWPF>
+  </PropertyGroup>
+
+  <ItemGroup>
+    <PackageReference Include="System.IO.Ports" Version="7.0.0" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <Reference Include="Newtonsoft.Json">
+      <HintPath>..\..\Reference\Newtonsoft.Json.dll</HintPath>
+    </Reference>
+    <Reference Include="NLog">
+      <HintPath>..\..\Reference\NLog.dll</HintPath>
+    </Reference>
+    <Reference Include="PaymentEngine">
+      <HintPath>..\..\Reference\PaymentEngine.dll</HintPath>
+    </Reference>
+    <Reference Include="System.IO.Ports">
+      <HintPath>..\..\Reference\System.IO.Ports.dll</HintPath>
+    </Reference>
+    <Reference Include="xCore">
+      <HintPath>..\..\Reference\xCore.dll</HintPath>
+    </Reference>
+    <Reference Include="xCore.Forms">
+      <HintPath>..\..\Reference\xCore.Forms.dll</HintPath>
+    </Reference>
+  </ItemGroup>
+
+</Project>

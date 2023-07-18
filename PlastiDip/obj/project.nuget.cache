@@ -1,0 +1,16 @@
+{
+  "version": 2,
+  "dgSpecHash": "MY/4ONDoSQjw2RJNSOOxzxYXLp7MIn2b/9K5BpHlN2Hhb0czFDPW2xsrc+M/Ewz60J8J04kxb0G4/jKxZHkspA==",
+  "success": true,
+  "projectFilePath": "C:\\Users\\elefkowitz\\Desktop\\MyFiles\\WORK\\SoftwareAndCode\\VS Projects\\PlastiDip\\PlastiDip\\PlastiDip.csproj",
+  "expectedPackageFiles": [
+    "C:\\Users\\elefkowitz\\.nuget\\packages\\runtime.linux-arm.runtime.native.system.io.ports\\7.0.0\\runtime.linux-arm.runtime.native.system.io.ports.7.0.0.nupkg.sha512",
+    "C:\\Users\\elefkowitz\\.nuget\\packages\\runtime.linux-arm64.runtime.native.system.io.ports\\7.0.0\\runtime.linux-arm64.runtime.native.system.io.ports.7.0.0.nupkg.sha512",
+    "C:\\Users\\elefkowitz\\.nuget\\packages\\runtime.linux-x64.runtime.native.system.io.ports\\7.0.0\\runtime.linux-x64.runtime.native.system.io.ports.7.0.0.nupkg.sha512",
+    "C:\\Users\\elefkowitz\\.nuget\\packages\\runtime.native.system.io.ports\\7.0.0\\runtime.native.system.io.ports.7.0.0.nupkg.sha512",
+    "C:\\Users\\elefkowitz\\.nuget\\packages\\runtime.osx-arm64.runtime.native.system.io.ports\\7.0.0\\runtime.osx-arm64.runtime.native.system.io.ports.7.0.0.nupkg.sha512",
+    "C:\\Users\\elefkowitz\\.nuget\\packages\\runtime.osx-x64.runtime.native.system.io.ports\\7.0.0\\runtime.osx-x64.runtime.native.system.io.ports.7.0.0.nupkg.sha512",
+    "C:\\Users\\elefkowitz\\.nuget\\packages\\system.io.ports\\7.0.0\\system.io.ports.7.0.0.nupkg.sha512"
+  ],
+  "logs": []
+}
