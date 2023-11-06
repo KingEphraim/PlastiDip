@@ -1,6 +1,3 @@
 # PlastiDip
 
-
-## Subheader
-
-Add subheader here
+Add instructions here
